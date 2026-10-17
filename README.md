@@ -47,11 +47,11 @@ Before changing anything, the script creates a **System Restore point**. It then
 
 1. Download the repository (or just the two `.ps1` files from the `en/` folder) into a folder.
 2. Type `PowerShell` in the Start menu, **right-click it and choose "Run as administrator"**.
-3. Run the following (adjust the folder path to where you saved the files, e.g. the `en` folder of the repository):
+3. Go to the folder that contains the script and run it. Replace the path in the `cd` line with the folder where you saved the files (the `en` folder of this repository). See [Running from a different folder](#running-from-a-different-folder) for ready-made examples:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
-cd $env:USERPROFILE\Downloads
+cd "C:\path\to\windows-performance-tuner\en"
 .\performance-tweaks.ps1
 ```
 
@@ -59,6 +59,28 @@ cd $env:USERPROFILE\Downloads
 5. When it finishes, **restart your computer**.
 
 > `Set-ExecutionPolicy -Scope Process Bypass` only applies to that single PowerShell window. Once you close it, your system's script policy is back to normal.
+
+### Running from a different folder
+
+Replace the `cd` line with the one that matches where your files are:
+
+| Where the files are | `cd` line |
+|---|---|
+| Downloads | `cd "$env:USERPROFILE\Downloads\windows-performance-tuner\en"` |
+| Desktop | `cd "$env:USERPROFILE\Desktop\windows-performance-tuner\en"` |
+| Desktop synced by OneDrive | `cd "$env:USERPROFILE\OneDrive\Desktop\windows-performance-tuner\en"` |
+| Another drive | `cd "D:\Tools\windows-performance-tuner\en"` |
+
+PowerShell switches drives with `cd` on its own, so no `/d` flag is needed. Keep the quotes, they are required when the path contains spaces.
+
+**Without `cd`:** run the script by its full path instead. In File Explorer, select the script and press **Ctrl+Shift+C** (or hold Shift, right-click and choose **Copy as path**), then paste the path in the administrator PowerShell after `& `:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass -Force
+& "C:\paste\the\path\here\performance-tweaks.ps1"
+```
+
+The undo script works the same way: use `undo-tweaks.ps1` instead of `performance-tweaks.ps1`.
 
 ---
 
@@ -166,9 +188,11 @@ There are two ways to roll back.
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
-cd $env:USERPROFILE\Downloads
+cd "C:\path\to\windows-performance-tuner\en"
 .\undo-tweaks.ps1
 ```
+
+Use the same folder options as in [Running from a different folder](#running-from-a-different-folder).
 
 This script:
 - Re-activates your previous power plan.

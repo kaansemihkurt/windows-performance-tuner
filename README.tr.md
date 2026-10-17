@@ -47,11 +47,11 @@ Script, herhangi bir şeyi değiştirmeden önce bir **sistem geri yükleme nokt
 
 1. Repoyu indirin veya `tr/` klasöründeki iki `.ps1` dosyasını bir klasöre kaydedin.
 2. Başlat menüsüne `PowerShell` yazın, **sağ tıklayın ve "Yönetici olarak çalıştır"** seçin.
-3. Şu komutları çalıştırın (klasör yolunu dosyaları kaydettiğiniz yere göre, örneğin reponun `tr` klasörüne göre değiştirin):
+3. Scriptin bulunduğu klasöre gidip çalıştırın. `cd` satırındaki yolu, dosyaları kaydettiğiniz klasörle (bu reponun `tr` klasörü) değiştirin. Hazır örnekler için [Farklı bir klasörden çalıştırma](#farklı-bir-klasörden-çalıştırma) bölümüne bakın:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
-cd $env:USERPROFILE\Downloads
+cd "C:\yol\windows-performance-tuner\tr"
 .\perf-ayarlari.ps1
 ```
 
@@ -59,6 +59,28 @@ cd $env:USERPROFILE\Downloads
 5. İşlem bitince **bilgisayarı yeniden başlatın**.
 
 > `Set-ExecutionPolicy -Scope Process Bypass` sadece o PowerShell penceresi için geçerlidir. Pencereyi kapattığınızda sisteminizin script politikası eski haline döner.
+
+### Farklı bir klasörden çalıştırma
+
+`cd` satırını, dosyalarınızın bulunduğu yere uyan satırla değiştirin:
+
+| Dosyalar nerede | `cd` satırı |
+|---|---|
+| İndirilenler | `cd "$env:USERPROFILE\Downloads\windows-performance-tuner\tr"` |
+| Masaüstü | `cd "$env:USERPROFILE\Desktop\windows-performance-tuner\tr"` |
+| OneDrive ile eşitlenen Masaüstü | `cd "$env:USERPROFILE\OneDrive\Desktop\windows-performance-tuner\tr"` |
+| Başka bir sürücü | `cd "D:\Tools\windows-performance-tuner\tr"` |
+
+PowerShell `cd` ile sürücü değiştirmeyi kendisi yapar, `/d` eklemeye gerek yoktur. Tırnakları silmeyin, yolda boşluk varsa gereklidir.
+
+**`cd` kullanmadan:** Scripti tam yoluyla çalıştırın. Dosya Gezgini'nde scripti seçip **Ctrl+Shift+C** tuşlarına basın (ya da Shift tuşuna basılı tutarak sağ tıklayıp **Yol olarak kopyala** seçin), sonra yönetici PowerShell'de `& ` işaretinden sonra yapıştırın:
+
+```powershell
+Set-ExecutionPolicy -Scope Process Bypass -Force
+& "C:\yolu\buraya\yapistirin\perf-ayarlari.ps1"
+```
+
+Geri alma scripti de aynı şekilde çalışır: `perf-ayarlari.ps1` yerine `geri-al.ps1` yazın.
 
 ---
 
@@ -166,9 +188,11 @@ Gereksiz olanları **Görev Yöneticisi → Başlangıç uygulamaları** bölüm
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
-cd $env:USERPROFILE\Downloads
+cd "C:\yol\windows-performance-tuner\tr"
 .\geri-al.ps1
 ```
+
+Klasör seçenekleri için [Farklı bir klasörden çalıştırma](#farklı-bir-klasörden-çalıştırma) bölümüne bakın.
 
 Bu script şunları yapar:
 - Önceki güç planını etkinleştirir.
