@@ -47,11 +47,11 @@ Before changing anything, the script creates a **System Restore point**. It then
 
 1. Download the repository (or just the two `.ps1` files from the `en/` folder) into a folder.
 2. Type `PowerShell` in the Start menu, **right-click it and choose "Run as administrator"**.
-3. Go to the folder that contains the script and run it. Replace the path in the `cd` line with the folder where you saved the files (the `en` folder of this repository). See [Running from a different folder](#running-from-a-different-folder) for ready-made examples:
+3. Open the script's folder in PowerShell and run it. The address in the `cd` line must be **your own folder's address**. If you are not sure how to find it, see [Running from a different folder](#running-from-a-different-folder):
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
-cd "C:\path\to\windows-performance-tuner\en"
+cd "C:\Users\Ali\Desktop\windows-performance-tuner\en"
 .\performance-tweaks.ps1
 ```
 
@@ -62,25 +62,28 @@ cd "C:\path\to\windows-performance-tuner\en"
 
 ### Running from a different folder
 
-Replace the `cd` line with the one that matches where your files are:
+The `cd` line tells PowerShell **which folder your script is in**. The part inside the quotes is that folder's address, so it has to match the place where *you* saved the files. The address in the examples is only an example, replace it with your own.
 
-| Where the files are | `cd` line |
-|---|---|
-| Downloads | `cd "$env:USERPROFILE\Downloads\windows-performance-tuner\en"` |
-| Desktop | `cd "$env:USERPROFILE\Desktop\windows-performance-tuner\en"` |
-| Desktop synced by OneDrive | `cd "$env:USERPROFILE\OneDrive\Desktop\windows-performance-tuner\en"` |
-| Another drive | `cd "D:\Tools\windows-performance-tuner\en"` |
+**How to find your folder's address:**
 
-PowerShell switches drives with `cd` on its own, so no `/d` flag is needed. Keep the quotes, they are required when the path contains spaces.
+1. Open the `en` folder in File Explorer (the folder that contains `performance-tweaks.ps1`).
+2. Click once on the address bar at the top. The text turns into a full address like `C:\Users\Ali\Desktop\windows-performance-tuner\en`.
+3. Press **Ctrl+C** to copy it.
+4. In PowerShell, type `cd "`, paste with **Ctrl+V** (or right-click), then type the closing `"`.
 
-**Without `cd`:** run the script by its full path instead. In File Explorer, select the script and press **Ctrl+Shift+C** (or hold Shift, right-click and choose **Copy as path**), then paste the path in the administrator PowerShell after `& `:
+Example: if your folder's address is `C:\Users\Ali\Desktop\windows-performance-tuner\en`, the commands are:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
-& "C:\paste\the\path\here\performance-tweaks.ps1"
+cd "C:\Users\Ali\Desktop\windows-performance-tuner\en"
+.\performance-tweaks.ps1
 ```
 
-The undo script works the same way: use `undo-tweaks.ps1` instead of `performance-tweaks.ps1`.
+Things to keep in mind:
+
+- Copy the address of the **folder**, not of the file. It must end with `en`, not with `performance-tweaks.ps1`.
+- Keep the quotes. They are required when the address contains spaces.
+- To run the undo script, use the same `cd` line and put `.\undo-tweaks.ps1` on the last line.
 
 ---
 
@@ -188,7 +191,7 @@ There are two ways to roll back.
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
-cd "C:\path\to\windows-performance-tuner\en"
+cd "C:\Users\Ali\Desktop\windows-performance-tuner\en"
 .\undo-tweaks.ps1
 ```
 
