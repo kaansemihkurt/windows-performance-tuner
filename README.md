@@ -1,6 +1,6 @@
 # Windows Performance Tuner
 
-[🇹🇷 Türkçe açıklama için aşağı kaydırın / Turkish description below](#-türkçe)
+**English** | [Türkçe](README.tr.md)
 
 A **safe and reversible** performance tuning script for Windows 10 / 11.
 
@@ -24,7 +24,6 @@ Before changing anything, the script creates a **System Restore point**. It then
 - [FAQ](#faq)
 - [Disclaimer](#disclaimer)
 - [License](#license)
-- [🇹🇷 Türkçe](#-türkçe)
 
 ---
 
@@ -231,67 +230,3 @@ This script changes settings that are widely considered safe, and every change i
 ## License
 
 Released under the [MIT License](LICENSE). Copyright (c) 2026 Kaan Semih Kurt.
-
----
-
-# 🇹🇷 Türkçe
-
-## Windows Performans Ayarları
-
-Windows 10 / 11 için **güvenli ve geri alınabilir** bir performans iyileştirme scripti.
-
-Script çalışmaya başlamadan önce bir **sistem geri yükleme noktası** oluşturur ve değiştirdiği her ayarın eski değerini Masaüstüne yedekler. Bir sorun çıkarsa `geri-al.ps1` ile tek komutta her şey eski haline döner.
-
-> ⚠️ Windows Defender, Windows Update ve sürücülere **dokunulmaz**.
-
-### Kullanım
-
-1. İki `.ps1` dosyasını bir klasöre indirin.
-2. PowerShell'i **Yönetici olarak** açın.
-3. Şunları çalıştırın:
-
-```powershell
-Set-ExecutionPolicy -Scope Process Bypass -Force
-cd $env:USERPROFILE\Downloads
-.\perf-ayarlari.ps1
-```
-
-4. Sorulara evet için `e`, hayır için `h` yazın.
-5. Bitince bilgisayarı **yeniden başlatın**.
-
-### Script neler yapar?
-
-| Adım | Yapılan işlem | Neden |
-|---|---|---|
-| 1. Geri yükleme noktası | "Performans ayarlari oncesi" noktası oluşturulur | Sorun olursa Windows'u bu ana döndürmek için |
-| 2. Güç planı *(sorar)* | Yüksek Performans planı etkinleştirilir | İşlemci hız düşürmesin diye. Dizüstünde pil daha hızlı biter |
-| 3. Hizmetler *(otomatik)* | `DiagTrack`, `dmwappushservice` (telemetri), `MapsBroker` (çevrimdışı haritalar), `RetailDemo`, `Fax`, `RemoteRegistry` kapatılır; `WerSvc` (hata raporlama) "el ile" yapılır | CPU, disk ve ağ kullanımını azaltmak, güvenlik riskini kapatmak için |
-| 4. Hizmetler *(sorar)* | Xbox hizmetleri, `Spooler` (yazıcı), `SysMain` (sadece SSD'de), `WSearch` (arama indeksi) | Kullanımınıza bağlı olduğu için önce sorulur |
-| 5. Arayüz ayarları | Menü gecikmesi 100 ms, pencere ve görev çubuğu animasyonları kapalı, Oyun Modu açık, Game DVR kapalı, arka plan uygulamaları kapalı, reklam kimliği ve Başlat önerileri kapalı | Sistemi daha akıcı yapmak, arka plan yükünü ve reklamları azaltmak için |
-| 6. Geçici dosyalar | `%TEMP%` ve `C:\Windows\Temp` temizlenir | Disk alanı açmak için |
-| 7. Disk optimizasyonu *(sorar)* | SSD'de TRIM, HDD'de birleştirme | Diskin uzun vadede hızlı kalması için |
-| 8. Başlangıç uygulamaları | Açılışta çalışanlar **sadece listelenir** | Hangisinin gerekli olduğuna siz karar verirsiniz; açılış hızını en çok bu etkiler |
-
-### Geri alma
-
-- **Yöntem 1 (önerilen):** Yönetici PowerShell'de `.\geri-al.ps1` çalıştırın. Hizmetler, güç planı ve kayıt defteri ayarları eski haline döner.
-- **Yöntem 2:** Başlat'a "Geri yükleme noktası oluştur" yazın, Sistem Geri Yükleme'den **"Performans ayarlari oncesi"** noktasını seçin.
-
-### Bilerek dokunulmayanlar
-
-Windows Defender, Windows Update, sürücüler, sanal bellek (pagefile) ve hazırda bekletme / Hızlı Başlatma ayarlarına dokunulmaz. Bunları değiştirmek ya performansı artırmaz ya da sistemi kararsız ve güvensiz yapar.
-
-### Güvenlik önlemleri
-
-- Yönetici yetkisi olmadan çalışmaz.
-- Masaüstünde zaten `perf-yedek.json` varsa script durur; orijinal ayarların yedeği ezilmez.
-- Yedek her adımdan sonra kaydedilir, script yarıda kesilse bile geri alınabilir.
-- Bir ayar bulunamazsa ya da değiştirilemezse hata vermeden uyarı gösterip devam eder.
-
-### Sorumluluk reddi
-
-Her değişiklik yedeklenir ve geri alınabilir, ancak her sistem farklıdır. Kullanım sorumluluğu size aittir; çalıştırmadan önce scripti okumanızı öneririz.
-
-### Lisans
-
-[MIT Lisansı](LICENSE) ile yayınlanmıştır. Telif hakkı (c) 2026 Kaan Semih Kurt.
