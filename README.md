@@ -4,11 +4,11 @@
 
 A **safe and reversible** performance tuning script for Windows 10 / 11.
 
-Before changing anything, the script creates a **System Restore point**. It then saves the original value of every setting it touches to a backup file. If anything goes wrong, `geri-al.ps1` (the undo script) restores everything with a single command.
+Before changing anything, the script creates a **System Restore point**. It then saves the original value of every setting it touches to a backup file. If anything goes wrong, `undo-tweaks.ps1` (the undo script) restores everything with a single command.
 
 > ⚠️ Windows Defender, Windows Update and drivers are **never touched**. Disabling them barely improves performance and leaves the system insecure and unstable.
 
-> ℹ️ The interactive prompts and console messages are in Turkish. Answer **`e`** (evet) or **`y`** for yes, and **`h`** (hayır) or anything else for no.
+> ℹ️ Two versions of the scripts are provided: English in [`en/`](en/) and Turkish in [`tr/`](tr/). Use whichever you prefer. This page documents the English version; its prompts ask `(y/n)`.
 
 ---
 
@@ -31,9 +31,11 @@ Before changing anything, the script creates a **System Restore point**. It then
 
 | File | Purpose |
 |---|---|
-| `perf-ayarlari.ps1` | Applies the performance tweaks and creates the backup |
-| `geri-al.ps1` | Restores all changes from the backup |
-| `perf-yedek.json` | Created automatically on your **Desktop** when the script runs; stores your original settings |
+| `en/performance-tweaks.ps1` | English version: applies the performance tweaks and creates the backup |
+| `en/undo-tweaks.ps1` | English version: restores all changes from the backup |
+| `tr/perf-ayarlari.ps1` | Turkish version of the tweaks script |
+| `tr/geri-al.ps1` | Turkish version of the undo script |
+| `perf-backup.json` | Created automatically on your **Desktop** when the English script runs; stores your original settings (the Turkish version uses `perf-yedek.json`) |
 
 ## Requirements
 
@@ -43,17 +45,17 @@ Before changing anything, the script creates a **System Restore point**. It then
 
 ## Usage
 
-1. Download the repository (or just the two `.ps1` files) into a folder.
+1. Download the repository (or just the two `.ps1` files from the `en/` folder) into a folder.
 2. Type `PowerShell` in the Start menu, **right-click it and choose "Run as administrator"**.
-3. Run the following (adjust the folder path to where you saved the files):
+3. Run the following (adjust the folder path to where you saved the files, e.g. the `en` folder of the repository):
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
 cd $env:USERPROFILE\Downloads
-.\perf-ayarlari.ps1
+.\performance-tweaks.ps1
 ```
 
-4. The script asks a few questions along the way. Answer `e` / `y` for yes and `h` for no.
+4. The script asks a few questions along the way. Answer `y` for yes and `n` for no.
 5. When it finishes, **restart your computer**.
 
 > `Set-ExecutionPolicy -Scope Process Bypass` only applies to that single PowerShell window. Once you close it, your system's script policy is back to normal.
@@ -67,7 +69,7 @@ cd $env:USERPROFILE\Downloads
 | Action | Why |
 |---|---|
 | Enables System Protection on the system drive | Required to create restore points |
-| Creates a restore point named "Performans ayarlari oncesi" ("before performance tweaks") | Lets you roll Windows back to this moment if something goes wrong |
+| Creates a restore point named "Before performance tweaks" | Lets you roll Windows back to this moment if something goes wrong |
 
 Windows normally allows only one restore point per 24 hours. If the point cannot be created, the script warns you and asks whether to continue.
 
@@ -160,25 +162,25 @@ Disable the ones you don't need under **Task Manager → Startup apps**. Discord
 
 There are two ways to roll back.
 
-### Method 1: `geri-al.ps1` (recommended)
+### Method 1: `undo-tweaks.ps1` (recommended)
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
 cd $env:USERPROFILE\Downloads
-.\geri-al.ps1
+.\undo-tweaks.ps1
 ```
 
 This script:
 - Re-activates your previous power plan.
 - Restores each service's original startup type, and starts those that were previously "Automatic".
 - Restores registry values to their original state, deleting those that did not exist before.
-- Renames the backup to `perf-yedek-geri-alindi-DATE.json` so you can run the tweaks again later.
+- Renames the backup to `perf-backup-restored-DATE.json` so you can run the tweaks again later.
 
 Restart your computer when it finishes.
 
 ### Method 2: System Restore
 
-Type **"Create a restore point"** in the Start menu, click **System Restore**, and pick the **"Performans ayarlari oncesi"** restore point.
+Type **"Create a restore point"** in the Start menu, click **System Restore**, and pick the **"Before performance tweaks"** restore point.
 
 ---
 
@@ -198,7 +200,7 @@ Type **"Create a restore point"** in the Start menu, click **System Restore**, a
 ## Safety Measures
 
 - The script **refuses to run** without administrator privileges.
-- If `perf-yedek.json` already exists on the Desktop, the script **stops**, so a second run can never overwrite the backup of your original settings.
+- If a backup file (`perf-backup.json`, or `perf-yedek.json` from the Turkish version) already exists on the Desktop, the script **stops**, so a second run can never overwrite the backup of your original settings.
 - The backup is saved after every step, so even if the script is interrupted, changes made up to that point can still be undone.
 - If a service or setting does not exist or cannot be changed, the script shows a warning and continues instead of failing.
 
@@ -207,16 +209,16 @@ Type **"Create a restore point"** in the Start menu, click **System Restore**, a
 ## FAQ
 
 **Can I run the script a second time?**
-Run `geri-al.ps1` first, or move `perf-yedek.json` off the Desktop. Otherwise the script stops to protect your original backup.
+Run `undo-tweaks.ps1` first, or move `perf-backup.json` off the Desktop. Otherwise the script stops to protect your original backup.
 
 **I get a "running scripts is disabled on this system" error.**
 Make sure you ran `Set-ExecutionPolicy -Scope Process Bypass -Force` before the other commands.
 
 **Characters look broken in the console.**
-Console messages intentionally avoid Turkish special characters to prevent this.
+Console messages intentionally use plain ASCII characters to prevent this.
 
 **My printer / Xbox controller stopped working.**
-You may have answered "yes" to the related question. Run `geri-al.ps1`, or open `services.msc`, set the service to **Automatic** and start it.
+You may have answered "yes" to the related question. Run `undo-tweaks.ps1`, or open `services.msc`, set the service to **Automatic** and start it.
 
 **How do I know whether Windows is on an SSD or an HDD?**
 Open Task Manager → Performance → Disk 0. The type is shown in the top-right corner.

@@ -8,7 +8,7 @@ Script, herhangi bir şeyi değiştirmeden önce bir **sistem geri yükleme nokt
 
 > ⚠️ Windows Defender, Windows Update ve sürücülere **asla dokunulmaz**. Bunları kapatmak performansı neredeyse hiç artırmaz, ama sistemi güvensiz ve kararsız hale getirir.
 
-> ℹ️ Script çalışırken çıkan sorular ve mesajlar Türkçedir. Evet için **`e`** (veya `y`), hayır için **`h`** yazın.
+> ℹ️ Scriptlerin iki sürümü vardır: İngilizce [`en/`](en/) klasöründe, Türkçe [`tr/`](tr/) klasöründe. Hangisini isterseniz onu kullanın. Bu sayfa Türkçe sürümü anlatır; soruları `e` (evet) veya `h` (hayır) ile yanıtlayın.
 
 ---
 
@@ -31,9 +31,11 @@ Script, herhangi bir şeyi değiştirmeden önce bir **sistem geri yükleme nokt
 
 | Dosya | Görevi |
 |---|---|
-| `perf-ayarlari.ps1` | Performans ayarlarını uygular, yedek alır |
-| `geri-al.ps1` | Yedekten tüm değişiklikleri geri alır |
-| `perf-yedek.json` | Script çalışınca **Masaüstünde** otomatik oluşur, orijinal ayarları tutar |
+| `tr/perf-ayarlari.ps1` | Türkçe sürüm: performans ayarlarını uygular, yedek alır |
+| `tr/geri-al.ps1` | Türkçe sürüm: yedekten tüm değişiklikleri geri alır |
+| `en/performance-tweaks.ps1` | İngilizce sürümün ayar scripti |
+| `en/undo-tweaks.ps1` | İngilizce sürümün geri alma scripti |
+| `perf-yedek.json` | Türkçe script çalışınca **Masaüstünde** otomatik oluşur, orijinal ayarları tutar (İngilizce sürüm `perf-backup.json` kullanır) |
 
 ## Gereksinimler
 
@@ -43,9 +45,9 @@ Script, herhangi bir şeyi değiştirmeden önce bir **sistem geri yükleme nokt
 
 ## Kullanım
 
-1. Repoyu indirin veya iki `.ps1` dosyasını bir klasöre kaydedin.
+1. Repoyu indirin veya `tr/` klasöründeki iki `.ps1` dosyasını bir klasöre kaydedin.
 2. Başlat menüsüne `PowerShell` yazın, **sağ tıklayın ve "Yönetici olarak çalıştır"** seçin.
-3. Şu komutları çalıştırın (klasör yolunu dosyaları kaydettiğiniz yere göre değiştirin):
+3. Şu komutları çalıştırın (klasör yolunu dosyaları kaydettiğiniz yere göre, örneğin reponun `tr` klasörüne göre değiştirin):
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass -Force
@@ -198,7 +200,7 @@ Başlat menüsüne **"Geri yükleme noktası oluştur"** yazın, **Sistem Geri Y
 ## Güvenlik Önlemleri
 
 - Script yönetici yetkisi olmadan **çalışmaz**.
-- Masaüstünde zaten bir `perf-yedek.json` varsa script **durur**. Böylece ikinci çalıştırmada orijinal ayarların yedeği ezilmez.
+- Masaüstünde zaten bir yedek dosyası varsa (`perf-yedek.json` veya İngilizce sürümün `perf-backup.json` dosyası) script **durur**. Böylece ikinci çalıştırmada orijinal ayarların yedeği ezilmez.
 - Yedek dosyası her adımdan sonra kaydedilir. Script yarıda kesilse bile o ana kadarki değişiklikler geri alınabilir.
 - Bir hizmet veya ayar bilgisayarda yoksa ya da değiştirilemezse hata vermek yerine uyarı gösterip devam eder.
 

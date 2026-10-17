@@ -20,9 +20,10 @@ function Sor($soru) {
 }
 
 $yedekYolu = Join-Path ([Environment]::GetFolderPath('Desktop')) 'perf-yedek.json'
-if (Test-Path $yedekYolu) {
-    Write-Host "Masaustunde zaten bir yedek var: $yedekYolu" -ForegroundColor Yellow
-    Write-Host "Orijinal ayarlar kaybolmasin diye script durdu. Once geri-al.ps1'i calistir ya da bu dosyayi baska yere tasi." -ForegroundColor Yellow
+$digerYedekYolu = Join-Path ([Environment]::GetFolderPath('Desktop')) 'perf-backup.json'   # Ingilizce surumun yedegi
+if ((Test-Path $yedekYolu) -or (Test-Path $digerYedekYolu)) {
+    Write-Host "Masaustunde onceki bir calistirmadan kalma yedek var (perf-yedek.json veya Ingilizce surumun perf-backup.json dosyasi)." -ForegroundColor Yellow
+    Write-Host "Orijinal ayarlar kaybolmasin diye script durdu. Once ilgili geri-al scriptini calistir ya da yedek dosyasini baska yere tasi." -ForegroundColor Yellow
     exit 1
 }
 
